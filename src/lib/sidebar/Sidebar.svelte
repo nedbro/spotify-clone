@@ -1,17 +1,17 @@
 <script>
 	import Navigation from './Navigation.svelte';
-	import Library from './Library.svelte';
+	import Library from './library/Library.svelte';
 </script>
 
-<sidebar>
+<div>
 	<Navigation />
 	<Library />
-</sidebar>
+</div>
 
 <style>
-	sidebar {
-		flex: 20%;
+	div {
 		margin-right: 4px;
+		min-width: 290px;
 
 		display: flex;
 		flex-direction: column;

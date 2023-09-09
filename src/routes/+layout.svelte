@@ -22,7 +22,7 @@
 	}
 
 	section {
-		flex: 80%;
+		width: 100%;
 		background-color: #121212;
 		border-radius: 1rem;
 		padding: 8px;
