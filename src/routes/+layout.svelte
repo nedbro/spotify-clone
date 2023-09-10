@@ -23,7 +23,7 @@
 
 	section {
 		width: 100%;
-		background-color: #121212;
+		background-color: var(--background-dark);
 		border-radius: 1rem;
 		padding: 8px;
 	}

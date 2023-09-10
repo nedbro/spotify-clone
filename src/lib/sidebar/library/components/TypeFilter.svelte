@@ -39,7 +39,7 @@
 	}
 
 	.selector {
-		background-color: hsla(0, 0%, 100%, 0.07);
+		background-color: var(--background-grey);
 		padding: 10px;
 		border-radius: 32px;
 		width: fit-content;
@@ -52,7 +52,7 @@
 
 		&:hover {
 			cursor: pointer;
-			background-color: hsla(0, 0%, 100%, 0.1);
+			opacity: 0.8
 		}
 
 		&--selected {
@@ -69,7 +69,7 @@
 	.icon-button {
 		margin-left: 8px;
 		color: white;
-		background-color: hsla(0, 0%, 100%, 0.07);
+		background-color: var(--background-grey);
 		border-radius: 100%;
 		padding: 4px;
 

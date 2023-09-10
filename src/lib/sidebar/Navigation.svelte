@@ -16,7 +16,7 @@
 
 <style>
 	div {
-		background-color: #121212;
+		background-color: var(--background-dark);
 		border-radius: 1rem;
 		height: 100%;
 		padding: 8px;
