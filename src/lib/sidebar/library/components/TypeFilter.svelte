@@ -1,18 +1,21 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
+	import { createEventDispatcher } from 'svelte';
+	import { types, type PlayableGroupType } from '$lib/types/PlayableGroup';
 
-	const types = ['Playlists', 'Albums', 'Podcasts & Shows'];
-	let selectedType: string | undefined;
+	let selectedType: PlayableGroupType | undefined;
 
-	function selectType(type?: string) {
-		if (!type) return;
+	const dispatch = createEventDispatcher();
 
-		if (type === selectedType) {
+	function selectType(type?: PlayableGroupType) {
+		if (!type || type === selectedType) {
+			dispatch('selectType', {type: undefined});
 			selectedType = undefined;
 			return;
 		}
 
 		selectedType = type;
+		dispatch('selectType', { type });
 	}
 </script>
 
@@ -22,11 +25,11 @@
 			<Icon icon="ph:x" width="25" height="25" />
 		</button>
 		<button class="selector selector--selected" on:click={() => selectType(selectedType)}>
-			{selectedType}
+			{selectedType.name}
 		</button>
 	{:else}
 		{#each types as type}
-			<button class="selector" on:click={() => selectType(type)}>{type}</button>
+			<button class="selector" on:click={() => selectType(type)}>{type.name}</button>
 		{/each}
 	{/if}
 </div>
@@ -52,7 +55,7 @@
 
 		&:hover {
 			cursor: pointer;
-			opacity: 0.8
+			opacity: 0.8;
 		}
 
 		&--selected {

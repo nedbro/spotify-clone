@@ -31,7 +31,7 @@
 
 	a {
 		all: unset;
-		color: #b3b3b3;
+		color: var(--text-grey);
 		display: flex;
 		padding-left: 16px;
 	}

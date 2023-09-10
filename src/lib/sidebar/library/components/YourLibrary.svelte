@@ -16,7 +16,7 @@
 <style lang="scss">
 	.your-library {
 		all: unset;
-		color: #b3b3b3;
+		color: var(--text-grey);
 		display: flex;
 		padding: 8px 16px 0px 16px;
 		margin-bottom: 16px;

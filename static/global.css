@@ -24,4 +24,12 @@ body {
 :root {
 	--background-dark: #121212;
 	--background-grey: #232323;
+	--text-grey: #b3b3b3;
+}
+
+html,
+body {
+	margin: 0;
+	height: 100%;
+	overflow: hidden;
 }

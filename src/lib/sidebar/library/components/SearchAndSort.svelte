@@ -1,7 +1,12 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
+	import { createEventDispatcher } from 'svelte';
+
 	let searchOpen = false;
 	let searchInput = '';
+	let sortInput = 'Recents';
+
+	const dispatch = createEventDispatcher();
 
 	function checkForFocusOut(node: Node, callback: Function) {
 		const handleClick = (event: MouseEvent) => {
@@ -18,6 +23,9 @@
 			}
 		};
 	}
+
+	$: dispatch('search', { searchInput });
+	$: dispatch('sort', { sortInput });
 </script>
 
 <div class="container">
@@ -45,7 +53,7 @@
 		</button>
 	{/if}
 
-	<select name="sort">
+	<select bind:value={sortInput} name="sort">
 		<option disabled>Sort by</option>
 		<option>Recents</option>
 		<option>Recently Added</option>
