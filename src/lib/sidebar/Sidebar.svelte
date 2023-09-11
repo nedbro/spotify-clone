@@ -12,7 +12,7 @@
 	div {
 		margin-right: 4px;
 		min-width: 290px;
-		max-height: calc(100vh - 75px);
+		max-height: calc(100vh - 88px);
 
 		display: flex;
 		flex-direction: column;
