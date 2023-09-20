@@ -1,4 +1,5 @@
 export type PlayableGroup = {
+	id: string;
 	name: string;
 	type: PlayableGroupType;
 	imageUrl: string;

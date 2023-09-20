@@ -7,6 +7,7 @@ export const getTestPlayableGroupData = (): PlayableGroup[] => {
 	// Examples
 	const examples: PlayableGroup[] = [
 		{
+			id: '123',
 			name: 'Album 1',
 			type: { name: 'Album', value: 'album' },
 			imageUrl,
@@ -15,6 +16,7 @@ export const getTestPlayableGroupData = (): PlayableGroup[] => {
 			dateAdded: '2023-01-20'
 		},
 		{
+			id: '123',
 			name: 'Playlist 1',
 			type: { name: 'Playlist', value: 'playlist' },
 			imageUrl,
@@ -23,14 +25,16 @@ export const getTestPlayableGroupData = (): PlayableGroup[] => {
 			dateAdded: '2023-02-10'
 		},
 		{
+			id: '123',
 			name: 'Podcast Series 1',
-			type:{ name: 'Podcasts & shows', value: 'podcast' },
+			type: { name: 'Podcasts & shows', value: 'podcast' },
 			imageUrl,
 			creator: 'Podcaster Y',
 			lastPlayed: '2021-07-20',
 			dateAdded: '2023-03-05'
 		},
 		{
+			id: '123',
 			name: 'Album 2',
 			type: { name: 'Album', value: 'album' },
 			imageUrl,
@@ -39,6 +43,7 @@ export const getTestPlayableGroupData = (): PlayableGroup[] => {
 			dateAdded: '2023-04-12'
 		},
 		{
+			id: '123',
 			name: 'Playlist 2',
 			type: { name: 'Playlist', value: 'playlist' },
 			imageUrl,
@@ -47,14 +52,16 @@ export const getTestPlayableGroupData = (): PlayableGroup[] => {
 			dateAdded: '2023-05-30'
 		},
 		{
+			id: '123',
 			name: 'Podcast Series 2',
-			type:{ name: 'Podcasts & shows', value: 'podcast' },
+			type: { name: 'Podcasts & shows', value: 'podcast' },
 			imageUrl,
 			creator: 'Podcaster Q',
 			lastPlayed: '2020-12-10',
 			dateAdded: '2023-06-17'
 		},
 		{
+			id: '123',
 			name: 'Album 3',
 			type: { name: 'Album', value: 'album' },
 			imageUrl,
@@ -63,6 +70,7 @@ export const getTestPlayableGroupData = (): PlayableGroup[] => {
 			dateAdded: '2023-07-08'
 		},
 		{
+			id: '123',
 			name: 'Playlist 3',
 			type: { name: 'Playlist', value: 'playlist' },
 			imageUrl,
@@ -71,14 +79,16 @@ export const getTestPlayableGroupData = (): PlayableGroup[] => {
 			dateAdded: '2023-08-25'
 		},
 		{
+			id: '123',
 			name: 'Podcast Series 3',
-			type:{ name: 'Podcasts & shows', value: 'podcast' },
+			type: { name: 'Podcasts & shows', value: 'podcast' },
 			imageUrl,
 			creator: 'Podcaster R',
 			lastPlayed: '2019-05-02',
 			dateAdded: '2023-09-03'
 		},
 		{
+			id: '123',
 			name: 'Album 4',
 			type: { name: 'Album', value: 'album' },
 			imageUrl,
@@ -86,7 +96,8 @@ export const getTestPlayableGroupData = (): PlayableGroup[] => {
 			lastPlayed: '2020-07-05',
 			dateAdded: '2023-10-19'
 		},
-        {
+		{
+			id: '123',
 			name: 'Album 1',
 			type: { name: 'Album', value: 'album' },
 			imageUrl,
@@ -95,13 +106,14 @@ export const getTestPlayableGroupData = (): PlayableGroup[] => {
 			dateAdded: '2023-01-20'
 		},
 		{
+			id: '123',
 			name: 'Playlist 1',
 			type: { name: 'Playlist', value: 'playlist' },
 			imageUrl,
 			creator: 'Curator X',
 			lastPlayed: '',
 			dateAdded: '2023-02-10'
-		},
+		}
 	];
 
 	return examples;

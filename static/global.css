@@ -17,13 +17,14 @@ body {
 	flex-direction: column;
 	min-height: 100vh;
 	margin: 0;
-
 	color: white;
+	background-color: black;
 }
 
 :root {
 	--background-dark: #121212;
 	--background-grey: #232323;
+	--background-elevated-dark: #242424;
 	--text-grey: #b3b3b3;
 	--project-green: #22d06c;
 }

@@ -3,7 +3,7 @@
 	export let data: PlayableGroup;
 </script>
 
-<div class="container">
+<a class="container" href={`/${data.type.value}/${data.id}`}>
 	<img src={data.imageUrl} alt="cover" width="48px" height="48px" />
 	<div class="data-container">
 		<h2>{data.name}</h2>
@@ -11,7 +11,7 @@
 			{data.type.name} - {data.creator}
 		</div>
 	</div>
-</div>
+</a>
 
 <style lang="scss">
 	.container {
