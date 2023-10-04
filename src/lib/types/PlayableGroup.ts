@@ -13,8 +13,8 @@ export type PlayableGroupType = {
 	value: 'album' | 'playlist' | 'podcast';
 };
 
-export const types: PlayableGroupType[] = [
-	{ name: 'Playlist', value: 'playlist' },
-	{ name: 'Album', value: 'album' },
-	{ name: 'Podcasts & Shows', value: 'podcast' }
-];
+export const PlaylistType: PlayableGroupType = { name: 'Playlist', value: 'playlist' };
+export const AlbumType: PlayableGroupType = { name: 'Album', value: 'album' };
+export const PodcastType: PlayableGroupType = { name: 'Podcasts & Shows', value: 'podcast' };
+
+export const types: PlayableGroupType[] = [PlaylistType, AlbumType, PodcastType];

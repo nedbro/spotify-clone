@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { logOut } from '$lib/authHandler';
+	import { logOut } from '$lib/spotify/authHandler';
 	import { userData } from '$lib/stores';
 
 	let showDropdown = false;

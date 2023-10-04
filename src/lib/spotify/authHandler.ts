@@ -36,7 +36,7 @@ export async function createAuthUrl(): Promise<string> {
 	const codeVerifier = generateRandomString(128);
 	const codeChallenge = await generateCodeChallenge(codeVerifier);
 	const state = generateRandomString(16);
-	const scope = 'user-read-private user-read-email';
+	const scope = 'user-read-private user-read-email user-library-read playlist-read-private';
 
 	localStorage.setItem('code_verifier', codeVerifier);
 
@@ -61,7 +61,37 @@ export async function getAuthTokens(code: string) {
 		code: code,
 		redirect_uri: redirectUri,
 		client_id: clientId,
-		code_verifier: localStorage.getItem('code_verifier') ?? ''
+		code_verifier: localStorage.getItem('code_verifier') ?? '',
+	});
+
+	return fetch('https://accounts.spotify.com/api/token', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded'
+		},
+		body: body
+	})
+		.then((response) => {
+			if (!response.ok) {
+				throw new Error('HTTP status ' + response.status);
+			}
+
+			return response.json();
+		})
+		.then((data) => {
+			localStorage.setItem('access_token', data.access_token);
+			localStorage.setItem('refresh_token', data.refresh_token);
+		})
+		.catch((error) => {
+			console.error('Error:', error);
+		});
+}
+
+export async function updateAuthTokenWithRefreshToken() {
+	const body = new URLSearchParams({
+		grant_type: 'refresh_token',
+		refresh_token: localStorage.getItem('refresh_token') ?? '',
+		client_id: clientId
 	});
 
 	return fetch('https://accounts.spotify.com/api/token', {
@@ -84,20 +114,4 @@ export async function getAuthTokens(code: string) {
 		.catch((error) => {
 			console.error('Error:', error);
 		});
-}
-
-export async function getProfile() {
-	const accessToken = localStorage.getItem('access_token');
-
-	const response = await fetch('https://api.spotify.com/v1/me', {
-		headers: {
-			Authorization: 'Bearer ' + accessToken
-		}
-	});
-
-	if (response.ok) {
-		return response.json();
-	} else {
-		logOut();
-	}
 }

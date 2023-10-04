@@ -1,10 +1,11 @@
 <script lang="ts">
-	import YourLibrary from './components/YourLibrary.svelte';
-	import TypeFilter from './components/TypeFilter.svelte';
-	import SearchAndSort from './components/SearchAndSort.svelte';
-	import PlayableGroupTile from './components/PlayableGroupTile.svelte';
 	import type { PlayableGroup, PlayableGroupType } from '$lib/types/PlayableGroup';
-	import { getTestPlayableGroupData } from './playableGroupData';
+	import { onMount } from 'svelte';
+	import PlayableGroupTile from './components/PlayableGroupTile.svelte';
+	import SearchAndSort from './components/SearchAndSort.svelte';
+	import TypeFilter from './components/TypeFilter.svelte';
+	import YourLibrary from './components/YourLibrary.svelte';
+	import { getPlayableGroups } from './getPlayableGroupData';
 
 	type LibraryFilterAndSort = {
 		type?: PlayableGroupType;
@@ -12,12 +13,19 @@
 		sortInput?: string;
 	};
 
-	const allPlayableGroups: PlayableGroup[] = getTestPlayableGroupData();
+	let allPlayableGroups: PlayableGroup[] = [];
+	let filterAndSort: LibraryFilterAndSort = { sortInput: 'Recents' };
 
-	let filterAndSort: LibraryFilterAndSort = {};
-	$: playableGroups = handleFilterAndSort(filterAndSort);
+	onMount(async () => {
+		allPlayableGroups = await getPlayableGroups();
+	});
 
-	function handleFilterAndSort(filterAndSort: LibraryFilterAndSort) {
+	$: playableGroups = handleFilterAndSort(allPlayableGroups, filterAndSort);
+
+	function handleFilterAndSort(
+		allPlayableGroups: PlayableGroup[],
+		filterAndSort: LibraryFilterAndSort
+	) {
 		let playableGroups = allPlayableGroups;
 
 		if (filterAndSort.type) {
