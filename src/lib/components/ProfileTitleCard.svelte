@@ -1,29 +1,21 @@
 <script lang="ts">
-	export let data: SpotifyApi.SingleAlbumResponse | undefined;
+	import type { ProfileTitleCardData } from '$lib/types/ProfileTitleCardData';
+
+	export let data: ProfileTitleCardData | undefined;
 </script>
 
 {#if data}
 	<div class="card">
-		<img src={data.images[0].url} alt="cover" class="albumIcon" />
+		<img src={data.imageUrl} alt="cover" class="albumIcon" />
 		<div class="textData">
 			<h4>{data.type}</h4>
-			<h1>{data.name}</h1>
+			<h1>{data.title}</h1>
 			<div class="extraInfo">
 				<p class="artistName">
-					{#each data.artists as artist}
-						{artist.name}
-						{#if artist !== data.artists[data.artists.length - 1]}
-							,
-						{/if}
-					{/each}
+					{data.creator}
 				</p>
 
-				{#if data.release_date}
-					{data.release_date.split('-')[0]}
-				{/if}
-				{#if data.total_tracks}
-					• {data.total_tracks} songs
-				{/if}
+				{data.extraInfo}
 			</div>
 		</div>
 	</div>
