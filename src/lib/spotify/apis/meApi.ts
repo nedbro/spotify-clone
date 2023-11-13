@@ -11,11 +11,9 @@ export async function getProfile() {
 
 	if (response.ok) {
 		return response.json();
-	} else {
-		if (response.status === 401) {
-			await updateAuthTokenWithRefreshToken();
-			return getProfile();
-		}
+	} else if (response.status === 401) {
+		await updateAuthTokenWithRefreshToken();
+		return getProfile();
 	}
 }
 
@@ -30,11 +28,9 @@ export async function getSavedAlbums() {
 
 	if (response.ok) {
 		return response.json();
-	} else {
-		if (response.status === 401) {
-			await updateAuthTokenWithRefreshToken();
-			return getSavedAlbums();
-		}
+	} else if (response.status === 401) {
+		await updateAuthTokenWithRefreshToken();
+		return getSavedAlbums();
 	}
 }
 

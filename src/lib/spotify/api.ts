@@ -1,11 +1,12 @@
 import { createAuthUrl, getAuthTokens } from './authHandler';
-import { getProfile, getSavedAlbums, getSavedPlaylists, getSavedPodcasts } from './me/meApi';
+import { getProfile, getSavedAlbums, getSavedPlaylists, getSavedPodcasts } from './apis/meApi';
+import { getAlbum } from './apis/album';
 
-export const SpotifyApi = {
-	getProfile: getProfile,
-	createAuthUrl: createAuthUrl,
-	getAuthTokens: getAuthTokens,
-	getSavedAlbums: getSavedAlbums,
-	getSavedPodcasts: getSavedPodcasts,
-	getSavedPlaylists: getSavedPlaylists
+export const SpotifyCustomApi = {
+	user: { getSavedAlbums, getSavedPodcasts, getSavedPlaylists, getProfile },
+	album: { getAlbum },
+	auth: {
+		createAuthUrl,
+		getAuthTokens
+	}
 };

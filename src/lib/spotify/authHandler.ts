@@ -61,7 +61,7 @@ export async function getAuthTokens(code: string) {
 		code: code,
 		redirect_uri: redirectUri,
 		client_id: clientId,
-		code_verifier: localStorage.getItem('code_verifier') ?? '',
+		code_verifier: localStorage.getItem('code_verifier') ?? ''
 	});
 
 	return fetch('https://accounts.spotify.com/api/token', {

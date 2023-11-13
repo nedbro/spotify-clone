@@ -3,7 +3,7 @@
 	import Footer from '$lib/footer/Footer.svelte';
 	import Sidebar from '$lib/sidebar/Sidebar.svelte';
 	import { onMount } from 'svelte';
-	import { SpotifyApi } from '$lib/spotify/api';
+	import { SpotifyCustomApi } from '$lib/spotify/api';
 
 	import { page } from '$app/stores';
 	import { userData } from '$lib/stores';
@@ -16,12 +16,12 @@
 			localStorage.getItem('code_verifier') != null && localStorage.getItem('access_token') != null;
 
 		if (!authenticated && $page.url.searchParams.has('code')) {
-			await SpotifyApi.getAuthTokens($page.url.searchParams.get('code') ?? '');
+			await SpotifyCustomApi.auth.getAuthTokens($page.url.searchParams.get('code') ?? '');
 			authenticated = true;
 		}
 
 		if (authenticated) {
-			const profile = await SpotifyApi.getProfile();
+			const profile = await SpotifyCustomApi.user.getProfile();
 			userData.set(profile);
 		}
 	});
@@ -29,7 +29,7 @@
 	const onLoginClick = async () => {
 		localStorage.removeItem('code_verifier');
 		localStorage.removeItem('access_token');
-		window.location.href = await SpotifyApi.createAuthUrl();
+		window.location.href = await SpotifyCustomApi.auth.createAuthUrl();
 	};
 </script>
 
@@ -98,5 +98,4 @@
 			opacity: 0.8;
 		}
 	}
-
 </style>

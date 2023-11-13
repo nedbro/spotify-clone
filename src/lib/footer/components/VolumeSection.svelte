@@ -15,14 +15,6 @@
 		easing: cubicOut
 	});
 
-	function getFormattedLength(seconds: number) {
-		const hours = Math.floor(seconds / 3600);
-		const minutes = Math.floor((seconds % 3600) / 60);
-		const secondsLeft = seconds % 60;
-
-		return `${hours ? hours + ':' : ''}${minutes}:${secondsLeft < 10 ? '0' : ''}${secondsLeft}`;
-	}
-
 	function updateVolume(event: MouseEvent) {
 		const { left, width } = progressRef.getBoundingClientRect();
 		const { clientX } = event;
@@ -58,7 +50,7 @@
 	.volume-container {
 		display: flex;
 		align-items: center;
-		justify-content: center;
+		justify-content: flex-end;
 		padding-top: 4px;
 		color: var(--text-grey);
 
@@ -68,7 +60,7 @@
 
 		progress {
 			display: block;
-			width: 70px;
+			width: 100px;
 			height: 6px;
 		}
 
