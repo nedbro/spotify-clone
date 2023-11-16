@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { getFormattedLength } from '$lib/helpers/time-format.helper';
 	import type { FooterInfo } from '$lib/types/FooterInfo';
 	import Icon from '@iconify/svelte';
 	import { createEventDispatcher } from 'svelte';
@@ -14,14 +15,6 @@
 		duration: 400,
 		easing: cubicOut
 	});
-
-	function getFormattedLength(seconds: number) {
-		const hours = Math.floor(seconds / 3600);
-		const minutes = Math.floor((seconds % 3600) / 60);
-		const secondsLeft = seconds % 60;
-
-		return `${hours ? hours + ':' : ''}${minutes}:${secondsLeft < 10 ? '0' : ''}${secondsLeft}`;
-	}
 
 	function handleProgressChange(event: MouseEvent) {
 		const { left, width } = progressRef.getBoundingClientRect();
@@ -86,22 +79,6 @@
 </div>
 
 <style lang="scss">
-	.color-project-green {
-		color: var(--project-green);
-	}
-
-	.color-white {
-		color: white;
-	}
-
-	.color-text-grey {
-		color: var(--text-grey);
-
-		&:hover {
-			color: white;
-		}
-	}
-
 	.icon-container {
 		display: flex;
 		align-items: center;

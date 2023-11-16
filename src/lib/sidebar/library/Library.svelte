@@ -114,16 +114,5 @@
 		}
 	}
 
-	::-webkit-scrollbar {
-		width: 10px;
-	}
 
-	::-webkit-scrollbar-thumb {
-		background: var(--text-grey);
-		border-radius: 20px;
-	}
-
-	::-webkit-scrollbar-corner {
-		display: none;
-	}
 </style>

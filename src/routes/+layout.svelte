@@ -61,9 +61,14 @@
 
 	section {
 		width: 100%;
+		max-height: calc(100vh - 88px);
+
 		background-color: var(--background-dark);
 		border-radius: 1rem;
 		padding: 8px;
+
+		overflow-x: hidden;
+		overflow-y: scroll;
 	}
 
 	.login-container {

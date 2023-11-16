@@ -26,5 +26,13 @@
 </script>
 
 {#if data}
-	<ProfileTitleCard data={createTitleCardData(data)} />
+	<div class="profileTitleCard">
+		<ProfileTitleCard data={createTitleCardData(data)} />
+	</div>
 {/if}
+
+<style lang="scss">
+	.profileTitleCard {
+		margin: 6rem 0 1rem 0;
+	}
+</style>

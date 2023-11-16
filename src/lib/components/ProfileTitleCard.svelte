@@ -37,8 +37,8 @@
 		height: 16vw;
 		width: 16vw;
 
-		min-width: 160px;
-		min-height: 160px;
+		min-width: 200px;
+		min-height: 200px;
 
 		max-width: 225px;
 		max-height: 225px;
