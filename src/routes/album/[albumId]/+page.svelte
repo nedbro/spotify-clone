@@ -6,15 +6,16 @@
 	import { SpotifyCustomApi } from '$lib/spotify/api';
 	import type { ProfileTitleCardData } from '$lib/types/ProfileTitleCardData';
 	import Icon from '@iconify/svelte';
+	import { writable } from 'svelte/store';
 
-	let data: SpotifyApi.SingleAlbumResponse | undefined;
+	$: data = writable<undefined | SpotifyApi.SingleAlbumResponse>();
 
 	$: {
 		getAlbum($page.params.albumId);
 	}
 
 	const getAlbum = async (id: string) => {
-		data = await SpotifyCustomApi.album.getAlbum(id);
+		$data = await SpotifyCustomApi.album.getAlbum(id);
 	};
 
 	const createTitleCardData = (input: SpotifyApi.SingleAlbumResponse): ProfileTitleCardData => {
@@ -27,10 +28,7 @@
 		};
 	};
 
-	const createTableConfig = () => {
-		if (data === undefined) {
-			return;
-		}
+	const createTableConfig = (data: SpotifyApi.SingleAlbumResponse) => {
 		return {
 			columns: [
 				{
@@ -48,34 +46,34 @@
 			],
 			dataSource: data.tracks.items.map((track) => {
 				return {
+					data: track,
 					track_number: track.track_number,
 					name: track.name,
-					duration_ms: getFormattedLength(track.duration_ms / 1000)
+					duration_ms: getFormattedLength(track.duration_ms)
 				};
 			})
 		};
 	};
+
+	async function play(data: SpotifyApi.TrackObjectSimplified) {
+		console.log('data', data);
+		await SpotifyCustomApi.user.play({
+			uris: [data.uri]
+		});
+	}
 </script>
 
-{#if data}
+{#if $data}
 	<div class="profileTitleCard">
-		<ProfileTitleCard data={createTitleCardData(data)} />
+		<ProfileTitleCard data={createTitleCardData($data)} />
 	</div>
 
 	<div class="tracksContainer">
-		<button class="color-project-green action-icon">
-			{#if true}
-				<Icon icon="octicon:play-24" width="48px" height="48px" />
-			{:else}
-				<Icon icon="mdi:play" width="28px" height="28px" />
-			{/if}
-		</button>
-
 		<button class="color-project-green">
 			<Icon icon="mdi:heart" width="48px" height="48px" />
 		</button>
 
-		<Table config={createTableConfig()} />
+		<Table config={createTableConfig($data)} on:rowClicked={(event) => play(event.detail.data.data)} />
 	</div>
 {/if}
 

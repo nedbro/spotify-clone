@@ -1,27 +1,10 @@
 <script lang="ts">
 	import { playerStateStore, playerStore } from '$lib/stores';
-	import type { FooterInfo } from '$lib/types/FooterInfo';
 	import { onDestroy, onMount } from 'svelte';
 	import { get } from 'svelte/store';
 	import PlayingSection from './components/PlayingSection.svelte';
 	import TrackSection from './components/TrackSection.svelte';
 	import VolumeSection from './components/VolumeSection.svelte';
-
-	const imageUrl =
-		'https://upload.wikimedia.org/wikipedia/en/a/a2/Interpol_-_El_Pintor_cover_art.jpg';
-
-	let footerExample: FooterInfo = {
-		title: 'Song Titleasdasdasdasdasdasdasdasdasd',
-		imageUrl,
-		creator: 'Artist Name',
-		lengthInSeconds: 240, // Length of the song in seconds (4 minutes)
-		atSeconds: 120, // Current playback position at 2 minutes
-		liked: false,
-		playing: true,
-		shuffle: true,
-		repeat: true,
-		volume: 50
-	};
 
 	onMount(() => {
 		if (document.getElementById('spotify-player') != null) {
@@ -57,7 +40,7 @@
 						playing: !state.paused,
 						shuffle: state.shuffle,
 						repeat: state.repeat_mode != 0,
-						volume: state.volume * 100,
+						volume: 0.5,
 						positionMs: state.position,
 						track: {
 							title: state.track_window.current_track.name,
@@ -76,14 +59,18 @@
 					playing: !state.paused,
 					shuffle: state.shuffle,
 					repeat: state.repeat_mode != 0,
-					volume: state.volume * 100,
 					positionMs: state.position,
+					volume: $playerStateStore.volume ?? 0.5,
 					track: {
 						title: state.track_window.current_track.name,
 						creator: state.track_window.current_track.artists[0].name,
 						imageUrl: state.track_window.current_track.album.images[0].url,
 						durationMs: state.track_window.current_track.duration_ms
 					}
+				});
+
+				player.getVolume().then((volume) => {
+					$playerStore?.setVolume(volume);
 				});
 			});
 
@@ -101,25 +88,22 @@
 
 <footer>
 	<div>
-		<TrackSection data={footerExample} />
+		<TrackSection />
 	</div>
 	<div>
 		<PlayingSection
-			data={footerExample}
-			on:togglePlaying={() =>
-				(footerExample = { ...footerExample, playing: !footerExample.playing })}
-			on:toggleRepeat={() => (footerExample = { ...footerExample, repeat: !footerExample.repeat })}
-			on:toggleShuffle={() =>
-				(footerExample = { ...footerExample, shuffle: !footerExample.shuffle })}
-			on:toggleProgress={(event) =>
-				(footerExample = { ...footerExample, atSeconds: event.detail.value })}
+			on:togglePlaying={() => $playerStore?.togglePlay()}
+			on:toggleProgress={(event) => $playerStore?.seek(event.detail.value)}
+			on:next={() => $playerStore?.nextTrack()}
+			on:previous={() => $playerStore?.previousTrack()}
 		/>
 	</div>
 	<div>
 		<VolumeSection
-			data={footerExample}
-			on:toggleVolume={(event) =>
-				(footerExample = { ...footerExample, volume: event.detail.value })}
+			on:toggleVolume={(event) => {
+				$playerStore?.setVolume(event.detail.volume);
+				$playerStateStore.volume = event.detail.volume;
+			}}
 		/>
 	</div>
 </footer>

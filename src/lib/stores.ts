@@ -8,6 +8,11 @@ export const playerStore = writable<{
 	connect: Function;
 	addListener: Function;
 	disconnect: Function;
+	togglePlay: Function;
+	setVolume: Function;
+	seek: Function;
+	previousTrack: Function;
+	nextTrack: Function;
 } | null>(null);
 
 export const musicPlaying = writable<boolean>(false);

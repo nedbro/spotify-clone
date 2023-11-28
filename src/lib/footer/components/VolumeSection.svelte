@@ -21,7 +21,7 @@
 
 		value = value < 8 ? 0 : value > 92 ? 100 : value;
 
-		$playerStateStore.volume = value / 100;
+		dispatch('toggleVolume', { volume: value / 100 });
 	}
 </script>
 

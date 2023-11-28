@@ -1,5 +1,8 @@
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte';
 	import type { TableInput } from './../types/Table.ts';
+
+	const dispatch = createEventDispatcher();
 
 	export let config: TableInput = {
 		columns: [],
@@ -17,7 +20,7 @@
 	</thead>
 	<tbody>
 		{#each config.dataSource as row}
-			<tr>
+			<tr on:click={() => dispatch('rowClicked', { data: row })}>
 				{#each config.columns as column}
 					<td>{row[column.key]}</td>
 				{/each}

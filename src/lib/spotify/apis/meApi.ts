@@ -71,3 +71,35 @@ export async function getSavedPlaylists() {
 		}
 	}
 }
+
+export async function play({
+	context_uri,
+	uris,
+	offset
+}: {
+	context_uri?: string;
+	uris?: string[];
+	offset?: number;
+}) {
+	const accessToken = localStorage.getItem('access_token');
+
+	const response = await fetch('https://api.spotify.com/v1/me/player/play', {
+		method: 'PUT',
+		headers: {
+			Authorization: 'Bearer ' + accessToken
+		},
+		body: JSON.stringify({
+			uris,
+			position_ms: 0
+		})
+	});
+
+	if (response.ok) {
+		return response.json();
+	} else {
+		if (response.status === 401) {
+			await updateAuthTokenWithRefreshToken();
+			return play({ context_uri, uris, offset });
+		}
+	}
+}

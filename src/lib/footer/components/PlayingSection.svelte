@@ -1,23 +1,29 @@
 <script lang="ts">
 	import { getFormattedLength } from '$lib/helpers/time-format.helper';
 	import { playerStateStore } from '$lib/stores';
-	import type { FooterInfo } from '$lib/types/FooterInfo';
 	import Icon from '@iconify/svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { cubicOut } from 'svelte/easing';
 	import { tweened } from 'svelte/motion';
+	import { readable } from 'svelte/store';
 
 	const dispatch = createEventDispatcher();
 
 	let progressRef: HTMLProgressElement;
 
-	$: playingProgress = tweened(
-		$playerStateStore.positionMs / ($playerStateStore.track?.durationMs ?? 1),
-		{
-			duration: 400,
-			easing: cubicOut
-		}
-	);
+	$: currentPosition = readable($playerStateStore.positionMs, (set, update) => {
+		const interval = setInterval(() => {
+			if (!$playerStateStore.playing) return;
+			update((position) => position + 1000);
+		}, 1100);
+
+		return () => clearInterval(interval);
+	});
+
+	$: playingProgress = tweened($currentPosition / ($playerStateStore.track?.durationMs ?? 1), {
+		duration: 400,
+		easing: cubicOut
+	});
 
 	function handleProgressChange(event: MouseEvent, duration: number) {
 		const { left, width } = progressRef.getBoundingClientRect();
@@ -32,6 +38,8 @@
 			secAtPercentage = duration;
 		}
 
+		console.log('secAtPercentage', secAtPercentage);
+
 		dispatch('toggleProgress', { value: secAtPercentage });
 	}
 </script>
@@ -45,7 +53,7 @@
 		>
 			<Icon icon="mdi:shuffle-variant" width="28px" height="28px" />
 		</button>
-		<button class="color-text-grey">
+		<button class="color-text-grey" on:click={() => dispatch('previous')}>
 			<Icon icon="mdi:skip-backward" width="28px" height="28px" />
 		</button>
 
@@ -57,7 +65,7 @@
 			{/if}
 		</button>
 
-		<button class="color-text-grey">
+		<button class="color-text-grey" on:click={() => dispatch('next')}>
 			<Icon icon="mdi:skip-forward" width="28px" height="28px" />
 		</button>
 		<button
@@ -69,7 +77,7 @@
 		</button>
 	</div>
 	<div class="progress-container">
-		<p>{getFormattedLength($playerStateStore.positionMs)}</p>
+		<p>{getFormattedLength($currentPosition)}</p>
 
 		<button
 			on:click={(event) => handleProgressChange(event, $playerStateStore.track?.durationMs ?? 1)}
