@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { getFormattedLength } from '$lib/helpers/time-format.helper';
+	import { playerStateStore } from '$lib/stores';
 	import type { FooterInfo } from '$lib/types/FooterInfo';
 	import Icon from '@iconify/svelte';
 	import { createEventDispatcher } from 'svelte';
@@ -8,25 +9,27 @@
 
 	const dispatch = createEventDispatcher();
 
-	export let data: FooterInfo;
 	let progressRef: HTMLProgressElement;
 
-	$: playingProgress = tweened(data.atSeconds / data.lengthInSeconds, {
-		duration: 400,
-		easing: cubicOut
-	});
+	$: playingProgress = tweened(
+		$playerStateStore.positionMs / ($playerStateStore.track?.durationMs ?? 1),
+		{
+			duration: 400,
+			easing: cubicOut
+		}
+	);
 
-	function handleProgressChange(event: MouseEvent) {
+	function handleProgressChange(event: MouseEvent, duration: number) {
 		const { left, width } = progressRef.getBoundingClientRect();
 		const { clientX } = event;
 
 		const percentage = Math.round(((clientX - left) / width) * 100);
-		let secAtPercentage = Math.round((percentage / 100) * data.lengthInSeconds);
+		let secAtPercentage = Math.round((percentage / 100) * duration);
 
 		if (secAtPercentage < 0) {
 			secAtPercentage = 0;
-		} else if (secAtPercentage > data.lengthInSeconds) {
-			secAtPercentage = data.lengthInSeconds;
+		} else if (secAtPercentage > duration) {
+			secAtPercentage = duration;
 		}
 
 		dispatch('toggleProgress', { value: secAtPercentage });
@@ -36,8 +39,8 @@
 <div>
 	<div class="icon-container">
 		<button
-			class:color-project-green={data.shuffle}
-			class:color-text-grey={!data.shuffle}
+			class:color-project-green={$playerStateStore.shuffle}
+			class:color-text-grey={!$playerStateStore.shuffle}
 			on:click={() => dispatch('toggleShuffle')}
 		>
 			<Icon icon="mdi:shuffle-variant" width="28px" height="28px" />
@@ -47,7 +50,7 @@
 		</button>
 
 		<button class="color-white" on:click={() => dispatch('togglePlaying')}>
-			{#if data.playing}
+			{#if $playerStateStore.playing}
 				<Icon icon="mdi:stop" width="28px" height="28px" />
 			{:else}
 				<Icon icon="mdi:play" width="28px" height="28px" />
@@ -58,22 +61,24 @@
 			<Icon icon="mdi:skip-forward" width="28px" height="28px" />
 		</button>
 		<button
-			class:color-project-green={data.repeat}
-			class:color-text-grey={!data.repeat}
+			class:color-project-green={$playerStateStore.repeat}
+			class:color-text-grey={!$playerStateStore.repeat}
 			on:click={() => dispatch('toggleRepeat')}
 		>
 			<Icon icon="mdi:repeat" width="28px" height="28px" />
 		</button>
 	</div>
 	<div class="progress-container">
-		<p>{getFormattedLength(data.atSeconds)}</p>
+		<p>{getFormattedLength($playerStateStore.positionMs)}</p>
 
-		<button on:click={(event) => handleProgressChange(event)}>
+		<button
+			on:click={(event) => handleProgressChange(event, $playerStateStore.track?.durationMs ?? 1)}
+		>
 			<progress bind:this={progressRef} value={$playingProgress} />
 		</button>
 
 		<p>
-			{getFormattedLength(data.lengthInSeconds)}
+			{getFormattedLength($playerStateStore.track?.durationMs ?? 1)}
 		</p>
 	</div>
 </div>

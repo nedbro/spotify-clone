@@ -1,29 +1,14 @@
 <script lang="ts">
-	import type { FooterInfo } from '$lib/types/FooterInfo';
-	import Icon from '@iconify/svelte';
-
-	export let data: FooterInfo;
+	import { playerStateStore } from '$lib/stores';
 </script>
 
 <div class="container">
-	<img src={data.imageUrl} alt="cover" width="48px" height="48px" />
+	<img src={$playerStateStore.track?.imageUrl} alt="cover" width="48px" height="48px" />
 	<div class="data-container">
-		<h2>{data.title}</h2>
+		<h2>{$playerStateStore.track?.title}</h2>
 		<div class="secondary-data">
-			{data.creator}
+			{$playerStateStore.track?.creator}
 		</div>
-	</div>
-
-	<div class="like-container">
-		{#if data.liked}
-			<button class="filled-heart" on:click={() => (data.liked = false)}>
-				<Icon icon="mdi:heart" width="24px" height="24px" />
-			</button>
-		{:else}
-			<button class="empty-heart" on:click={() => (data.liked = true)}>
-				<Icon icon="mdi:heart-outline" width="24px" height="24px" />
-			</button>
-		{/if}
 	</div>
 </div>
 

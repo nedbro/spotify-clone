@@ -28,6 +28,7 @@
 
 <style lang="scss">
 	table {
+		user-select: none;
 		width: 100%;
 		margin-left: 16px;
 
@@ -62,6 +63,7 @@
 
 		tr:hover td {
 			background-color: #3c3c3c; /* Lighter shade on hover */
+			cursor: pointer;
 		}
 
 		th:not(:first-child),

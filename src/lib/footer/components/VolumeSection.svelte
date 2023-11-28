@@ -1,16 +1,14 @@
 <script lang="ts">
-	import type { FooterInfo } from '$lib/types/FooterInfo';
+	import { playerStateStore } from '$lib/stores';
 	import Icon from '@iconify/svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { cubicOut } from 'svelte/easing';
 	import { tweened } from 'svelte/motion';
 
-	export let data: FooterInfo;
-
 	const dispatch = createEventDispatcher();
 	let progressRef: HTMLProgressElement;
 
-	$: volume = tweened(data.volume / 100, {
+	$: volume = tweened($playerStateStore.volume, {
 		duration: 400,
 		easing: cubicOut
 	});
@@ -23,7 +21,7 @@
 
 		value = value < 8 ? 0 : value > 92 ? 100 : value;
 
-		dispatch('toggleVolume', { value });
+		$playerStateStore.volume = value / 100;
 	}
 </script>
 
@@ -31,9 +29,12 @@
 	<div class="volume-container">
 		<button
 			class="color-text-grey icon-container"
-			on:click={() => dispatch('toggleVolume', { value: data.volume > 0 ? 0 : 50 })}
+			on:click={() =>
+				$playerStateStore.volume > 0
+					? ($playerStateStore.volume = 0)
+					: ($playerStateStore.volume = 0.5)}
 		>
-			{#if data.volume > 0}
+			{#if $playerStateStore.volume > 0}
 				<Icon icon="mdi:volume-high" width="24px" height="24px" />
 			{:else}
 				<Icon icon="mdi:volume-mute" width="24px" height="24px" />

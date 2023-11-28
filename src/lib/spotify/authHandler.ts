@@ -36,7 +36,8 @@ export async function createAuthUrl(): Promise<string> {
 	const codeVerifier = generateRandomString(128);
 	const codeChallenge = await generateCodeChallenge(codeVerifier);
 	const state = generateRandomString(16);
-	const scope = 'user-read-private user-read-email user-library-read playlist-read-private';
+	const scope =
+		'user-read-private user-read-email user-library-read playlist-read-private streaming';
 
 	localStorage.setItem('code_verifier', codeVerifier);
 
