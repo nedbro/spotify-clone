@@ -47,6 +47,7 @@
 				.filter((track) => track.track !== null)
 				.map((track, index) => {
 					return {
+						data: track,
 						track_number: index + 1,
 						name: track.track!.name,
 						duration_ms: getFormattedLength(track.track!.duration_ms / 1000)
@@ -54,6 +55,18 @@
 				})
 		};
 	};
+
+	async function play(
+		playlist: SpotifyApi.SinglePlaylistResponse,
+		trackData: SpotifyApi.PlaylistTrackObject
+	) {
+		await SpotifyCustomApi.user.play({
+			context_uri: playlist.uri,
+			offset: {
+				position: playlist.tracks.items.findIndex((item) => item.track?.uri === trackData.track?.uri)
+			}
+		});
+	}
 </script>
 
 {#if data}
@@ -61,7 +74,10 @@
 		<ProfileTitleCard data={createTitleCardData(data)} />
 	</div>
 
-	<Table config={createTableConfig(data)} />
+	<Table
+		config={createTableConfig(data)}
+		on:rowClicked={(event) => play(data, event.detail.data.data)}
+	/>
 {/if}
 
 <style lang="scss">

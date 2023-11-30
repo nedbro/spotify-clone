@@ -13,6 +13,8 @@ export const playerStore = writable<{
 	seek: Function;
 	previousTrack: Function;
 	nextTrack: Function;
+	getCurrentState: Function;
+	getVolume: Function;
 } | null>(null);
 
 export const musicPlaying = writable<boolean>(false);

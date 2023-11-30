@@ -1,8 +1,22 @@
-import { createAuthUrl, getAuthTokens } from './authHandler';
-import { getProfile, getSavedAlbums, getSavedPlaylists, getSavedPodcasts, play } from './apis/meApi';
+import {
+	initializeSpotifyPlayer,
+	subscribeToPlayerState,
+	removeSpotifyPlayer
+} from '$lib/spotify/web-playback';
 import { getAlbum } from './apis/album';
-import { getPodcast } from './apis/podcast';
+import {
+	getProfile,
+	getSavedAlbums,
+	getSavedPlaylists,
+	getSavedPodcasts,
+	play,
+	toggleRepeat,
+	toggleShuffle,
+	transferPlayback
+} from './apis/meApi';
 import { getPlaylist } from './apis/playlist';
+import { getPodcast } from './apis/podcast';
+import { createAuthUrl, getAuthTokens } from './authHandler';
 
 export const SpotifyCustomApi = {
 	user: { getSavedAlbums, getSavedPodcasts, getSavedPlaylists, getProfile, play },
@@ -12,5 +26,13 @@ export const SpotifyCustomApi = {
 	auth: {
 		createAuthUrl,
 		getAuthTokens
+	},
+	playback: {
+		subscribeToPlayerState,
+		initializeSpotifyPlayer,
+		removeSpotifyPlayer,
+		transferPlayback,
+		toggleRepeat,
+		toggleShuffle
 	}
 };

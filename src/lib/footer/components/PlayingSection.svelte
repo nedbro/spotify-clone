@@ -38,8 +38,6 @@
 			secAtPercentage = duration;
 		}
 
-		console.log('secAtPercentage', secAtPercentage);
-
 		dispatch('toggleProgress', { value: secAtPercentage });
 	}
 </script>
@@ -49,7 +47,7 @@
 		<button
 			class:color-project-green={$playerStateStore.shuffle}
 			class:color-text-grey={!$playerStateStore.shuffle}
-			on:click={() => dispatch('toggleShuffle')}
+			on:click={() => dispatch('toggleShuffle', { value: !$playerStateStore.shuffle })}
 		>
 			<Icon icon="mdi:shuffle-variant" width="28px" height="28px" />
 		</button>
@@ -71,7 +69,7 @@
 		<button
 			class:color-project-green={$playerStateStore.repeat}
 			class:color-text-grey={!$playerStateStore.repeat}
-			on:click={() => dispatch('toggleRepeat')}
+			on:click={() => dispatch('toggleRepeat', { value: !$playerStateStore.repeat })}
 		>
 			<Icon icon="mdi:repeat" width="28px" height="28px" />
 		</button>

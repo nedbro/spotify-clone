@@ -55,10 +55,15 @@
 		};
 	};
 
-	async function play(data: SpotifyApi.TrackObjectSimplified) {
-		console.log('data', data);
+	async function play(
+		albumData: SpotifyApi.SingleAlbumResponse,
+		trackData: SpotifyApi.TrackObjectSimplified
+	) {
 		await SpotifyCustomApi.user.play({
-			uris: [data.uri]
+			context_uri: albumData.uri,
+			offset: {
+				uri: trackData.uri
+			}
 		});
 	}
 </script>
@@ -69,23 +74,16 @@
 	</div>
 
 	<div class="tracksContainer">
-		<button class="color-project-green">
-			<Icon icon="mdi:heart" width="48px" height="48px" />
-		</button>
-
-		<Table config={createTableConfig($data)} on:rowClicked={(event) => play(event.detail.data.data)} />
+		<Table
+			config={createTableConfig($data)}
+			on:rowClicked={(event) => play($data, event.detail.data.data)}
+		/>
 	</div>
 {/if}
 
 <style lang="scss">
 	.profileTitleCard {
 		margin: 6rem 0 1rem 0;
-	}
-
-	.action-icon {
-		cursor: pointer;
-		margin-left: 12px;
-		margin-bottom: 8px;
 	}
 
 	.tracksContainer {
