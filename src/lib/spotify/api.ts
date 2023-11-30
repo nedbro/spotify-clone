@@ -14,7 +14,7 @@ import {
 	toggleShuffle,
 	transferPlayback
 } from './apis/meApi';
-import { getPlaylist } from './apis/playlist';
+import { getFeaturedPlaylists, getPlaylist } from './apis/playlist';
 import { getPodcast } from './apis/podcast';
 import { createAuthUrl, getAuthTokens } from './authHandler';
 
@@ -22,7 +22,7 @@ export const SpotifyCustomApi = {
 	user: { getSavedAlbums, getSavedPodcasts, getSavedPlaylists, getProfile, play },
 	album: { getAlbum },
 	podcast: { getPodcast },
-	playlist: { getPlaylist },
+	playlist: { getPlaylist, getFeaturedPlaylists },
 	auth: {
 		createAuthUrl,
 		getAuthTokens

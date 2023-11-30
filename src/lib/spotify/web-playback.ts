@@ -3,6 +3,10 @@ import { playerStateStore, playerStore } from '$lib/stores';
 import { get } from 'svelte/store';
 
 const updateStoreFromState = (state) => {
+    if (!state) {
+        return;
+    }
+
 	playerStateStore.set({
 		playing: !state.paused,
 		shuffle: state.shuffle,

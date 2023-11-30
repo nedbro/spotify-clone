@@ -63,7 +63,7 @@
 		await SpotifyCustomApi.user.play({
 			context_uri: playlist.uri,
 			offset: {
-				position: playlist.tracks.items.findIndex((item) => item.track?.uri === trackData.track?.uri)
+				uri: trackData.track?.uri
 			}
 		});
 	}
